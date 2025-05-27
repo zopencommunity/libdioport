@@ -6,6 +6,9 @@ export ZOPEN_MAKE="zopen_build"
 export ZOPEN_CHECK_MINIMAL=Y
 export ZOPEN_INSTALL_OPTS="install PREFIX=\$ZOPEN_INSTALL_DIR"
 
+export ZOPEN_EXTRA_CFLAGS="-mzos-target=zosv2r5 -march=z13"
+export ZOPEN_SYSTEM_PREREQS="zos25"
+
 export ZOPEN_CONFIGURE="skip"
 
 zopen_build() 
