@@ -1,22 +1,36 @@
 export ZOPEN_BUILD_LINE="DEV"
 export ZOPEN_DEV_URL="https://github.com/ZOSOpenTools/libdio.git"
-export ZOPEN_DEV_DEPS="make cjson coreutils diffutils check_python"
+export ZOPEN_DEV_DEPS="make cjson coreutils diffutils check_python metaldio"
 export ZOPEN_MAKE_MINIMAL=Y
 export ZOPEN_MAKE="zopen_build"
 export ZOPEN_CHECK_MINIMAL=Y
+export ZOPEN_CHECK="zopen_check"
 export ZOPEN_INSTALL_OPTS="install PREFIX=\$ZOPEN_INSTALL_DIR"
 
-export ZOPEN_EXTRA_CFLAGS="-mzos-target=zosv2r5 -march=z13"
-export ZOPEN_SYSTEM_PREREQS="zos25"
+export ZOPEN_RUNTIME_DEPS="metaldio cjson"
 
 export ZOPEN_CONFIGURE="skip"
 
-zopen_build() 
+zopen_init()
 {
   export CJSON_INCLUDE_DIR=$CJSON_HOME/include/
   export CJSON_LIBRARY=$CJSON_HOME/lib/libcjson.a
+  export METALDIO_INCLUDE_DIR=$METALDIO_HOME/include/metaldio
+  export METALDIO_LIBRARY=$METALDIO_HOME/lib
+}
 
+zopen_build() 
+{
+  export PATH=/nfsmnts/bpidrivers/zosv2r4/dataset/:$PATH
   make 
+}
+
+zopen_check() 
+{
+  unset LDFLAGS_FOR_BUILD
+  unset LDFLAGS
+  export PATH=/nfsmnts/bpidrivers/zosv2r4/dataset/:$PATH
+  make  check
 }
 
 # Avoid zoslib
@@ -45,7 +59,7 @@ if [ ! -z "\$ZOPEN_IN_ZOPEN_BUILD" ]; then
   export ZOPEN_EXTRA_CFLAGS="\${ZOPEN_EXTRA_CFLAGS} -I\$PWD/include"
   export ZOPEN_EXTRA_CXXFLAGS="\${ZOPEN_EXTRA_CXXFLAGS} -I\$PWD/include"
   export ZOPEN_EXTRA_LDFLAGS="\${ZOPEN_EXTRA_LDFLAGS} -L\$PWD/lib"
-  export ZOPEN_EXTRA_LIBS="\${ZOPEN_EXTRA_LIBS} -ldio"
+  export ZOPEN_EXTRA_LIBS="\${ZOPEN_EXTRA_LIBS} -lbpamiosvcs -lbpamiocore -ldio"
 fi
 ZZ
 }
