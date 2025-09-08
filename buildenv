@@ -1,6 +1,7 @@
 export ZOPEN_BUILD_LINE="DEV"
 export ZOPEN_DEV_URL="https://github.com/ZOSOpenTools/libdio.git"
 export ZOPEN_DEV_DEPS="make cjson coreutils diffutils check_python metaldio"
+export ZOPEN_DEV_TAG="ispf_integration"
 export ZOPEN_MAKE_MINIMAL=Y
 export ZOPEN_MAKE="zopen_build"
 export ZOPEN_CHECK_MINIMAL=Y
